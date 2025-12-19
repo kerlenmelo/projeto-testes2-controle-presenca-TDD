@@ -1,6 +1,15 @@
 class DisciplinaService {
-  async criar() {
-    throw new Error('DisciplinaService.criar não implementado');
+  constructor() {
+    this.disciplinas = [];
+  }
+
+  async criar(dados) {
+    if (this.disciplinas.some(d => d.nome === dados.nome)) {
+      throw new Error('Disciplina duplicada');
+    }
+
+    this.disciplinas.push(dados);
+    return dados;
   }
 }
 

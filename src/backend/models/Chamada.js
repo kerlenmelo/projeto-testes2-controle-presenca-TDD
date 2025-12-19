@@ -1,18 +1,32 @@
 class Chamada {
-  constructor() {
-    throw new Error('Chamada não implementada');
+  constructor(dados) {
+    const { disciplinaId, alunoId, professorId, data } = dados;
+
+    if (!disciplinaId) throw new Error('Disciplina inválida');
+    if (!alunoId) throw new Error('Aluno inválido');
+    if (!professorId) throw new Error('Professor inválido');
+    if (!data) throw new Error('Data inválida');
+
+    this.disciplinaId = disciplinaId;
+    this.alunoId = alunoId;
+    this.professorId = professorId;
+    this.data = data;
+    this.status = 'Ausente';
   }
 
   marcarPresenca() {
-    throw new Error('Chamada.marcarPresenca não implementado');
+    this.status = 'Presente';
   }
 
   marcarAusencia() {
-    throw new Error('Chamada.marcarAusencia não implementado');
+    this.status = 'Ausente';
   }
 
-  setStatus() {
-    throw new Error('Chamada.setStatus não implementado');
+  setStatus(status) {
+    if (!['Presente', 'Ausente'].includes(status)) {
+      throw new Error('Status inválido');
+    }
+    this.status = status;
   }
 }
 

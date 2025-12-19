@@ -1,6 +1,22 @@
 class ChamadaService {
-  async registrar() {
-    throw new Error('ChamadaService.registrar não implementado');
+  constructor() {
+    this.chamadas = [];
+  }
+
+  async registrar(dados) {
+    const existe = this.chamadas.some(
+      c =>
+        c.alunoId === dados.alunoId &&
+        c.disciplinaId === dados.disciplinaId &&
+        c.data === dados.data
+    );
+
+    if (existe) {
+      throw new Error('Chamada duplicada');
+    }
+
+    this.chamadas.push(dados);
+    return dados;
   }
 }
 
