@@ -1,22 +1,46 @@
+const ChamadaRepository = require('../repositories/ChamadaRepository');
+const AlunoDisciplinaRepository = require('../repositories/AlunoDisciplinaRepository');
+
 class ChamadaService {
   constructor() {
-    this.chamadas = [];
+    this.chamadaRepository = new ChamadaRepository();
+    this.alunoDisciplinaRepository = new AlunoDisciplinaRepository();
   }
 
-  async registrar(dados) {
-    const existe = this.chamadas.some(
-      c =>
-        c.alunoId === dados.alunoId &&
-        c.disciplinaId === dados.disciplinaId &&
-        c.data === dados.data
-    );
+  async finalizarChamada({ disciplinaId, professorId, data, presencas }) {
 
-    if (existe) {
-      throw new Error('Chamada duplicada');
+    const chamadaExistente =
+      await this.chamadaRepository.buscarPorDisciplinaEData(disciplinaId, data);
+
+    if (chamadaExistente) {
+      throw new Error('Chamada já finalizada para esta disciplina nesta data');
     }
 
-    this.chamadas.push(dados);
-    return dados;
+    const matriculas =
+      await this.alunoDisciplinaRepository.listarPorDisciplina(disciplinaId);
+
+
+    const presencasFinal = matriculas.map(m => {
+      const encontrada = presencas.find(p => p.alunoId === String(m.alunoId));
+
+      return {
+        alunoId: m.alunoId,
+        status: encontrada ? encontrada.status : 'Ausente'
+      };
+    });
+
+    return await this.chamadaRepository.criar({
+      disciplinaId,
+      professorId,
+      data,
+      presencas: presencasFinal,
+      finalizada: true
+    });
+  }
+
+
+  async buscarChamada(chamadaId) {
+    return await this.chamadaRepository.buscarPorId(chamadaId);
   }
 }
 

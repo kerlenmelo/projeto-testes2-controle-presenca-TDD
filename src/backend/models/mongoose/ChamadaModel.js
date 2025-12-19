@@ -1,13 +1,7 @@
-// src/backend/models/mongoose/ChamadaModel.js
 const mongoose = require('mongoose');
 
 const chamadaSchema = new mongoose.Schema(
   {
-    alunoId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Aluno',
-      required: true
-    },
     disciplinaId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Disciplina',
@@ -18,22 +12,38 @@ const chamadaSchema = new mongoose.Schema(
       ref: 'Professor',
       required: true
     },
-    data: { type: String, required: true },
-    status: {
+    data: {
       type: String,
-      enum: ['Presente', 'Ausente'],
-      default: 'Ausente'
+      required: true
+    },
+    presencas: [
+      {
+        alunoId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Aluno',
+          required: true
+        },
+        status: {
+          type: String,
+          enum: ['Presente', 'Ausente'],
+          default: 'Ausente'
+        }
+      }
+    ],
+    finalizada: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }
 );
 
-// Regra central reforçada no banco
+// Regra: uma chamada por disciplina e data
 chamadaSchema.index(
-  { alunoId: 1, disciplinaId: 1, data: 1 },
+  { disciplinaId: 1, data: 1 },
   { unique: true }
 );
 
-module.exports = 
-mongoose.models.Chamada ||
-mongoose.model('Chamada', chamadaSchema);
+module.exports =
+  mongoose.models.Chamada ||
+  mongoose.model('Chamada', chamadaSchema);
