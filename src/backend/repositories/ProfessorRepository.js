@@ -25,6 +25,11 @@ class ProfessorRepository {
   async remover(id) {
     return await ProfessorModel.findByIdAndDelete(id);
   }
+  
+  async buscarPorEmail(email) {
+  return await ProfessorModel.findOne({ email });
+}
+
 }
 
 module.exports = ProfessorRepository;

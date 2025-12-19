@@ -1,8 +1,16 @@
 const express = require('express');
-const { registrar } = require('../controllers/ChamadaController');
+const ChamadaController = require('../controllers/ChamadaController');
 
 const router = express.Router();
 
-router.post('/', registrar);
+// Finalizar chamada (criação)
+router.post('/', (req, res) =>
+  ChamadaController.finalizar(req, res)
+);
+
+// Buscar chamada (somente leitura)
+router.get('/:id', (req, res) =>
+  ChamadaController.buscarPorId(req, res)
+);
 
 module.exports = router;
