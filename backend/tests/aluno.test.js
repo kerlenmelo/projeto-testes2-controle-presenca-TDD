@@ -1,6 +1,3 @@
-
-const Aluno = require('../models/aluno');
-
 describe('Entidade de Domínio: Aluno', () => {
 
   const dadosValidos = {
@@ -20,7 +17,7 @@ describe('Entidade de Domínio: Aluno', () => {
 
     expect(aluno.nome).toBe('João da Silva');
     expect(aluno.cpf).toBe('12345678901');
-    expect(aluno.role).toBe('Aluno'); // comportamento implícito do schema
+    expect(aluno.role).toBe('Aluno'); 
   });
 
   it('não deve permitir criação sem nome', () => {
