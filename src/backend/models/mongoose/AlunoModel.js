@@ -17,4 +17,7 @@ const alunoSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Aluno', alunoSchema);
+module.exports =
+  mongoose.models.Aluno ||
+  mongoose.model('Aluno', alunoSchema);
+

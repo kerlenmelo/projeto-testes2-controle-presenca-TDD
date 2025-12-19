@@ -34,4 +34,6 @@ chamadaSchema.index(
   { unique: true }
 );
 
-module.exports = mongoose.model('Chamada', chamadaSchema);
+module.exports = 
+mongoose.models.Chamada ||
+mongoose.model('Chamada', chamadaSchema);

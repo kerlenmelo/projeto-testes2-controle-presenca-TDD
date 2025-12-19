@@ -15,4 +15,6 @@ const disciplinaSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Disciplina', disciplinaSchema);
+module.exports = 
+mongoose.models.Disciplina ||
+mongoose.model('Disciplina', disciplinaSchema);

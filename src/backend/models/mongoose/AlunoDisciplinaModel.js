@@ -33,4 +33,6 @@ alunoDisciplinaSchema.index(
   { unique: true }
 );
 
-module.exports = mongoose.model('AlunoDisciplina', alunoDisciplinaSchema);
+module.exports = 
+mongoose.models.AlunoDisciplina ||
+mongoose.model('AlunoDisciplina', alunoDisciplinaSchema);

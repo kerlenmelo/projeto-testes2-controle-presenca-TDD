@@ -1,20 +1,18 @@
-// src/backend/models/mongoose/AlunoModel.js
+// src/backend/models/mongoose/ProfessorModel.js
 const mongoose = require('mongoose');
 
-const alunoSchema = new mongoose.Schema(
+const professorSchema = new mongoose.Schema(
   {
     nome: { type: String, required: true },
-    endereco: { type: String, required: true },
-    dataNascimento: { type: Date, required: true },
     cpf: { type: String, required: true, unique: true },
-    matricula: { type: String, required: true },
-    telefone: { type: String, required: true },
     email: { type: String, required: true },
-    curso: { type: String, required: true },
+    telefone: { type: String, required: true },
     senha: { type: String, required: true },
-    role: { type: String, default: 'Aluno' }
+    role: { type: String, default: 'Professor' }
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Aluno', alunoSchema);
+module.exports = 
+mongoose.models.Professor ||
+mongoose.model('Professor', professorSchema);
