@@ -1,4 +1,4 @@
-
+const Disciplina = require('../models/Disciplina')
 
 describe('Entidade de Domínio: Disciplina', () => {
 

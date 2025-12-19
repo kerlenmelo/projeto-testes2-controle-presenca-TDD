@@ -1,4 +1,4 @@
-
+const Chamada = require('../models/Chamada')
 describe('Entidade de Domínio: Chamada (Registro de Presença)', () => {
 
   const dadosValidos = {

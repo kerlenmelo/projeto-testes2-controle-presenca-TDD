@@ -1,3 +1,4 @@
+const Aluno = require('../models/Aluno')
 describe('Entidade de Domínio: Aluno', () => {
 
   const dadosValidos = {

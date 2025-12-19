@@ -1,3 +1,4 @@
+const AlunoDisciplina = require('../models/AlunoDisciplina')
 
 describe('Entidade de Domínio: AlunoDisciplina', () => {
 
