@@ -1,16 +1,31 @@
+const Disciplina = require('../models/Disciplina');
+const DisciplinaRepository = require('../repositories/DisciplinaRepository');
+
 class DisciplinaService {
-  constructor() {
-    this.disciplinas = [];
+  async criar(dados) {
+    const disciplina = new Disciplina(dados);
+    return DisciplinaRepository.create(disciplina);
   }
 
-  async criar(dados) {
-    if (this.disciplinas.some(d => d.nome === dados.nome)) {
-      throw new Error('Disciplina duplicada');
-    }
+  async listarTodas() {
+    return DisciplinaRepository.findAll();
+  }
 
-    this.disciplinas.push(dados);
-    return dados;
+  async buscarPorId(id) {
+    return DisciplinaRepository.findById(id);
+  }
+
+  async listarPorProfessor(professorId) {
+    return DisciplinaRepository.findByProfessor(professorId);
+  }
+
+  async atualizar(id, dados) {
+    return DisciplinaRepository.update(id, dados);
+  }
+
+  async remover(id) {
+    return DisciplinaRepository.delete(id);
   }
 }
 
-module.exports = DisciplinaService;
+module.exports = new DisciplinaService();

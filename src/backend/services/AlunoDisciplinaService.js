@@ -1,26 +1,23 @@
+const AlunoDisciplina = require('../models/AlunoDisciplina');
+const AlunoDisciplinaRepository = require('../repositories/AlunoDisciplinaRepository');
+
 class AlunoDisciplinaService {
-  constructor() {
-    this.matriculas = [];
+  async matricular(dados) {
+    const matricula = new AlunoDisciplina(dados);
+    return AlunoDisciplinaRepository.create(matricula);
   }
 
-  async matricular({ alunoId, disciplinaId }) {
-    const existe = this.matriculas.some(
-      m => m.alunoId === alunoId && m.disciplinaId === disciplinaId
-    );
+  async listarPorAluno(alunoId) {
+    return AlunoDisciplinaRepository.findByAluno(alunoId);
+  }
 
-    if (existe) {
-      throw new Error('Matrícula duplicada');
-    }
+  async listarPorDisciplina(disciplinaId) {
+    return AlunoDisciplinaRepository.findByDisciplina(disciplinaId);
+  }
 
-    const matricula = {
-      alunoId,
-      disciplinaId,
-      status: 'ativo'
-    };
-
-    this.matriculas.push(matricula);
-    return matricula;
+  async desmatricular(alunoId, disciplinaId) {
+    return AlunoDisciplinaRepository.delete(alunoId, disciplinaId);
   }
 }
 
-module.exports = AlunoDisciplinaService;
+module.exports = new AlunoDisciplinaService();
