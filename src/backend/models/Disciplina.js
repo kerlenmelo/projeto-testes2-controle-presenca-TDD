@@ -1,17 +1,15 @@
 class Disciplina {
-  constructor(dados) {
-    const { nome, cargaHoraria, professorId, descricao } = dados;
-
-    if (!nome || nome.trim() === '') throw new Error('Nome inválido');
-    if (!Number.isInteger(cargaHoraria)) throw new Error('Carga horária inválida');
-    if (cargaHoraria <= 0 || cargaHoraria > 500) throw new Error('Carga horária inválida');
-    if (!professorId) throw new Error('Professor inválido');
-    if (descricao && descricao.length > 500) throw new Error('Descrição inválida');
+  constructor({ nome, cargaHoraria, professorId, descricao }) {
+    if (!nome) throw new Error('Nome da disciplina é obrigatório');
+    if (!Number.isInteger(cargaHoraria) || cargaHoraria <= 0) {
+      throw new Error('Carga horária inválida');
+    }
+    if (!professorId) throw new Error('Professor é obrigatório');
 
     this.nome = nome;
     this.cargaHoraria = cargaHoraria;
     this.professorId = professorId;
-    this.descricao = descricao;
+    this.descricao = descricao || null;
   }
 }
 

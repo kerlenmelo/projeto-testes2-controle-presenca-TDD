@@ -1,36 +1,16 @@
 class Aluno {
-  constructor(dados) {
-    const {
-      nome,
-      endereco,
-      dataNascimento,
-      cpf,
-      matricula,
-      telefone,
-      email,
-      curso,
-      senha
-    } = dados;
-
-    if (!nome || nome.trim() === '') throw new Error('Nome inválido');
-    if (!senha || senha.length < 6) throw new Error('Senha inválida');
+  constructor({ nome, cpf, email, telefone, senha }) {
+    if (!nome) throw new Error('Nome é obrigatório');
     if (!cpf || cpf.length !== 11) throw new Error('CPF inválido');
+    if (!email) throw new Error('Email é obrigatório');
+    if (!senha || senha.length < 6) throw new Error('Senha inválida');
 
     this.nome = nome;
-    this.endereco = endereco;
-    this.dataNascimento = dataNascimento;
     this.cpf = cpf;
-    this.matricula = matricula;
-    this.telefone = telefone;
     this.email = email;
-    this.curso = curso;
+    this.telefone = telefone || null;
     this.senha = senha;
-
     this.role = 'Aluno';
-  }
-
-  async matchPassword(enteredPassword) {
-    return enteredPassword === this.senha;
   }
 }
 

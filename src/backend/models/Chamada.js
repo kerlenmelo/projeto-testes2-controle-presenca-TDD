@@ -1,32 +1,15 @@
 class Chamada {
-  constructor(dados) {
-    const { disciplinaId, alunoId, professorId, data } = dados;
+  constructor({ alunoId, disciplinaId, professorId, data, status }) {
+    if (!alunoId) throw new Error('Aluno é obrigatório');
+    if (!disciplinaId) throw new Error('Disciplina é obrigatória');
+    if (!professorId) throw new Error('Professor é obrigatório');
+    if (!data) throw new Error('Data é obrigatória');
 
-    if (!disciplinaId) throw new Error('Disciplina inválida');
-    if (!alunoId) throw new Error('Aluno inválido');
-    if (!professorId) throw new Error('Professor inválido');
-    if (!data) throw new Error('Data inválida');
-
-    this.disciplinaId = disciplinaId;
     this.alunoId = alunoId;
+    this.disciplinaId = disciplinaId;
     this.professorId = professorId;
-    this.data = data;
-    this.status = 'Ausente';
-  }
-
-  marcarPresenca() {
-    this.status = 'Presente';
-  }
-
-  marcarAusencia() {
-    this.status = 'Ausente';
-  }
-
-  setStatus(status) {
-    if (!['Presente', 'Ausente'].includes(status)) {
-      throw new Error('Status inválido');
-    }
-    this.status = status;
+    this.data = new Date(data);
+    this.status = status || 'Ausente';
   }
 }
 
