@@ -1,4 +1,4 @@
-const DisciplinaModel = require('../models/mongoose/Disciplina');
+const DisciplinaModel = require('../models/mongoose/DisciplinaSchema');
 
 class DisciplinaRepository {
   async findAll() {

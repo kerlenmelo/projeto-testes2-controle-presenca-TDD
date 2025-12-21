@@ -1,16 +1,20 @@
-const ProfessorModel = require('../models/mongoose/Professor');
+const ProfessorModel = require('../models/mongoose/ProfessorSchema');
 
 class ProfessorRepository {
   async findAll() {
-    return ProfessorModel.find();
+    return ProfessorModel.find().select('-senha');
   }
 
   async findById(id) {
-    return ProfessorModel.findById(id);
+    return ProfessorModel.findById(id).select('-senha');
   }
 
   async findByCpf(cpf) {
-    return ProfessorModel.findOne({ cpf });
+    return ProfessorModel.findOne({ cpf }).select('-senha');
+  }
+
+  async findByEmail(email) {
+    return ProfessorModel.findOne({ email });
   }
 
   async create(data) {

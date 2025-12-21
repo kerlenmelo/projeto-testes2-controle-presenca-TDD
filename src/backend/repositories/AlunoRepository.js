@@ -1,16 +1,16 @@
-const AlunoModel = require('../models/mongoose/Aluno');
+const AlunoModel = require('../models/mongoose/AlunoSchema');
 
 class AlunoRepository {
   async findAll() {
-    return AlunoModel.find();
+    return AlunoModel.find().select('-senha');
   }
 
   async findById(id) {
-    return AlunoModel.findById(id);
+    return AlunoModel.findById(id).select('-senha');
   }
 
   async findByCpf(cpf) {
-    return AlunoModel.findOne({ cpf });
+    return AlunoModel.findOne({ cpf }).select('-senha');
   }
 
   async create(data) {

@@ -1,4 +1,4 @@
-const AlunoDisciplinaModel = require('../models/mongoose/AlunoDisciplina');
+const AlunoDisciplinaModel = require('../models/mongoose/AlunoDisciplinaSchema');
 
 class AlunoDisciplinaRepository {
   async findByAluno(alunoId) {

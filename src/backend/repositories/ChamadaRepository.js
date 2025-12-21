@@ -1,4 +1,4 @@
-const ChamadaModel = require('../models/mongoose/Chamada');
+const ChamadaModel = require('../models/mongoose/ChamadaSchema');
 
 class ChamadaRepository {
   async findAll() {
@@ -14,16 +14,18 @@ class ChamadaRepository {
       .populate('professorId');
   }
 
-  async findByDisciplina(disciplinaId) {
-    return ChamadaModel.find({ disciplinaId })
-      .populate('alunoId')
-      .populate('professorId');
+  async findByDisciplinaAndData(disciplinaId, data) {
+    const dataNormalizada = new Date(data);
+    dataNormalizada.setHours(0, 0, 0, 0);
+
+    return ChamadaModel.find({
+      disciplinaId,
+      data: dataNormalizada,
+    }).populate('alunoId');
   }
 
-  async findByProfessor(professorId) {
-    return ChamadaModel.find({ professorId })
-      .populate('alunoId')
-      .populate('disciplinaId');
+  async findOne(filter) {
+    return ChamadaModel.findOne(filter);
   }
 
   async create(data) {
