@@ -1,30 +1,29 @@
-// src/backend/repositories/AlunoRepository.js
-const AlunoModel = require('../models/mongoose/AlunoModel');
+const AlunoModel = require('../models/mongoose/Aluno');
 
 class AlunoRepository {
-  async criar(dados) {
-    return await AlunoModel.create(dados);
+  async findAll() {
+    return AlunoModel.find();
   }
 
-  async listar() {
-    return await AlunoModel.find();
+  async findById(id) {
+    return AlunoModel.findById(id);
   }
 
-  async buscarPorId(id) {
-    return await AlunoModel.findById(id);
+  async findByCpf(cpf) {
+    return AlunoModel.findOne({ cpf });
   }
 
-  async buscarPorCPF(cpf) {
-    return await AlunoModel.findOne({ cpf });
+  async create(data) {
+    return AlunoModel.create(data);
   }
 
-  async atualizar(id, dados) {
-    return await AlunoModel.findByIdAndUpdate(id, dados, { new: true });
+  async update(id, data) {
+    return AlunoModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async remover(id) {
-    return await AlunoModel.findByIdAndDelete(id);
+  async delete(id) {
+    return AlunoModel.findByIdAndDelete(id);
   }
 }
 
-module.exports = AlunoRepository;
+module.exports = new AlunoRepository();

@@ -1,26 +1,34 @@
-// src/backend/repositories/ChamadaRepository.js
-const ChamadaModel = require('../models/mongoose/ChamadaModel');
+const ChamadaModel = require('../models/mongoose/Chamada');
 
 class ChamadaRepository {
-  async registrar(dados) {
-    return await ChamadaModel.create(dados);
-  }
-
-  async listar() {
-    return await ChamadaModel
-      .find()
+  async findAll() {
+    return ChamadaModel.find()
       .populate('alunoId')
       .populate('disciplinaId')
       .populate('professorId');
   }
 
-  async buscarDuplicada(alunoId, disciplinaId, data) {
-    return await ChamadaModel.findOne({ alunoId, disciplinaId, data });
+  async findByAluno(alunoId) {
+    return ChamadaModel.find({ alunoId })
+      .populate('disciplinaId')
+      .populate('professorId');
   }
 
-  async remover(id) {
-    return await ChamadaModel.findByIdAndDelete(id);
+  async findByDisciplina(disciplinaId) {
+    return ChamadaModel.find({ disciplinaId })
+      .populate('alunoId')
+      .populate('professorId');
+  }
+
+  async findByProfessor(professorId) {
+    return ChamadaModel.find({ professorId })
+      .populate('alunoId')
+      .populate('disciplinaId');
+  }
+
+  async create(data) {
+    return ChamadaModel.create(data);
   }
 }
 
-module.exports = ChamadaRepository;
+module.exports = new ChamadaRepository();

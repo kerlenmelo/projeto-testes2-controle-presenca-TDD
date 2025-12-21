@@ -1,35 +1,29 @@
-// src/backend/repositories/ProfessorRepository.js
-const ProfessorModel = require('../models/mongoose/ProfessorModel');
+const ProfessorModel = require('../models/mongoose/Professor');
 
 class ProfessorRepository {
-  async criar(dados) {
-    return await ProfessorModel.create(dados);
+  async findAll() {
+    return ProfessorModel.find();
   }
 
-  async listar() {
-    return await ProfessorModel.find();
+  async findById(id) {
+    return ProfessorModel.findById(id);
   }
 
-  async buscarPorId(id) {
-    return await ProfessorModel.findById(id);
+  async findByCpf(cpf) {
+    return ProfessorModel.findOne({ cpf });
   }
 
-  async buscarPorCPF(cpf) {
-    return await ProfessorModel.findOne({ cpf });
+  async create(data) {
+    return ProfessorModel.create(data);
   }
 
-  async atualizar(id, dados) {
-    return await ProfessorModel.findByIdAndUpdate(id, dados, { new: true });
+  async update(id, data) {
+    return ProfessorModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async remover(id) {
-    return await ProfessorModel.findByIdAndDelete(id);
+  async delete(id) {
+    return ProfessorModel.findByIdAndDelete(id);
   }
-  
-  async buscarPorEmail(email) {
-  return await ProfessorModel.findOne({ email });
 }
 
-}
-
-module.exports = ProfessorRepository;
+module.exports = new ProfessorRepository();

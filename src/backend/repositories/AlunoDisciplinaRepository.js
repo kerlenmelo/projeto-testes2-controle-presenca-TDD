@@ -1,29 +1,21 @@
-// src/backend/repositories/AlunoDisciplinaRepository.js
-const AlunoDisciplinaModel = require('../models/mongoose/AlunoDisciplinaModel');
+const AlunoDisciplinaModel = require('../models/mongoose/AlunoDisciplina');
 
 class AlunoDisciplinaRepository {
-  async matricular(dados) {
-    return await AlunoDisciplinaModel.create(dados);
+  async findByAluno(alunoId) {
+    return AlunoDisciplinaModel.find({ alunoId }).populate('disciplinaId');
   }
 
-  async listar() {
-    return await AlunoDisciplinaModel
-      .find()
-      .populate('alunoId')
-      .populate('disciplinaId');
+  async findByDisciplina(disciplinaId) {
+    return AlunoDisciplinaModel.find({ disciplinaId }).populate('alunoId');
   }
 
-  async buscar(alunoId, disciplinaId) {
-    return await AlunoDisciplinaModel.findOne({ alunoId, disciplinaId });
+  async create(data) {
+    return AlunoDisciplinaModel.create(data);
   }
 
-  async atualizar(id, dados) {
-    return await AlunoDisciplinaModel.findByIdAndUpdate(id, dados, { new: true });
-  }
-
-  async remover(id) {
-    return await AlunoDisciplinaModel.findByIdAndDelete(id);
+  async delete(alunoId, disciplinaId) {
+    return AlunoDisciplinaModel.findOneAndDelete({ alunoId, disciplinaId });
   }
 }
 
-module.exports = AlunoDisciplinaRepository;
+module.exports = new AlunoDisciplinaRepository();

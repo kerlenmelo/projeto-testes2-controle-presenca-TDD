@@ -1,30 +1,29 @@
-// src/backend/repositories/DisciplinaRepository.js
-const DisciplinaModel = require('../models/mongoose/DisciplinaModel');
+const DisciplinaModel = require('../models/mongoose/Disciplina');
 
 class DisciplinaRepository {
-  async criar(dados) {
-    return await DisciplinaModel.create(dados);
+  async findAll() {
+    return DisciplinaModel.find().populate('professorId');
   }
 
-  async listar() {
-    return await DisciplinaModel.find().populate('professorId');
+  async findById(id) {
+    return DisciplinaModel.findById(id).populate('professorId');
   }
 
-  async buscarPorId(id) {
-    return await DisciplinaModel.findById(id).populate('professorId');
+  async findByProfessor(professorId) {
+    return DisciplinaModel.find({ professorId }).populate('professorId');
   }
 
-  async buscarPorNome(nome) {
-    return await DisciplinaModel.findOne({ nome });
+  async create(data) {
+    return DisciplinaModel.create(data);
   }
 
-  async atualizar(id, dados) {
-    return await DisciplinaModel.findByIdAndUpdate(id, dados, { new: true });
+  async update(id, data) {
+    return DisciplinaModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async remover(id) {
-    return await DisciplinaModel.findByIdAndDelete(id);
+  async delete(id) {
+    return DisciplinaModel.findByIdAndDelete(id);
   }
 }
 
-module.exports = DisciplinaRepository;
+module.exports = new DisciplinaRepository();
