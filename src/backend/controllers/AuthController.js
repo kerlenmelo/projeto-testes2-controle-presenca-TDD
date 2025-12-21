@@ -1,25 +1,21 @@
-const ProfessorRepository = require('../repositories/ProfessorRepository');
+const AuthService = require('../services/AuthService');
 
 class AuthController {
   async loginProfessor(req, res) {
     const { email, senha } = req.body;
 
     if (!email || !senha) {
-      return res.status(400).json({ message: 'Email e senha são obrigatórios' });
+      return res
+        .status(400)
+        .json({ message: 'Email e senha são obrigatórios' });
     }
 
-    const repository = new ProfessorRepository();
-    const professor = await repository.buscarPorEmail(email);
-
-    if (!professor || professor.senha !== senha) {
-      return res.status(401).json({ message: 'Credenciais inválidas' });
+    try {
+      const professor = await AuthService.loginProfessor(email, senha);
+      return res.json(professor);
+    } catch (error) {
+      return res.status(401).json({ message: error.message });
     }
-
-    return res.json({
-      id: professor._id,
-      nome: professor.nome,
-      email: professor.email
-    });
   }
 }
 

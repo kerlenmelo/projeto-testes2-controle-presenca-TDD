@@ -1,30 +1,54 @@
 const ChamadaService = require('../services/ChamadaService');
 
 class ChamadaController {
-  async finalizar(req, res) {
+  async registrar(req, res) {
     try {
-      const service = new ChamadaService();
-
-      const chamada = await service.finalizarChamada(req.body);
-
+      const chamada = await ChamadaService.registrar(req.body);
       return res.status(201).json(chamada);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
   }
 
-  async buscarPorId(req, res) {
+  async listarPorDisciplinaEData(req, res) {
+    const { disciplinaId } = req.params;
+    const { data } = req.query;
+
     try {
-      const service = new ChamadaService();
-      const chamada = await service.buscarChamada(req.params.id);
-
-      if (!chamada) {
-        return res.status(404).json({ message: 'Chamada não encontrada' });
-      }
-
-      return res.json(chamada);
+      const chamadas = await ChamadaService.listarPorDisciplinaEData(
+        disciplinaId,
+        data
+      );
+      return res.json(chamadas);
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async listarPorAluno(req, res) {
+    const { alunoId } = req.params;
+
+    try {
+      const chamadas = await ChamadaService.listarPorAluno(alunoId);
+      return res.json(chamadas);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async listarChamadaCompleta(req, res) {
+    const { disciplinaId } = req.params;
+    const { data } = req.query;
+
+    try {
+      const lista = await ChamadaService.listarChamadaCompleta(
+        disciplinaId,
+        data
+      );
+
+      return res.json(lista);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
     }
   }
 }
