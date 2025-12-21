@@ -1,4 +1,3 @@
-// src/backend/models/mongoose/AlunoDisciplinaModel.js
 const mongoose = require('mongoose');
 
 const alunoDisciplinaSchema = new mongoose.Schema(
@@ -6,33 +5,28 @@ const alunoDisciplinaSchema = new mongoose.Schema(
     alunoId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Aluno',
-      required: true
+      required: true,
     },
     disciplinaId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Disciplina',
-      required: true
+      required: true,
     },
     status: {
       type: String,
-      enum: ['ativo', 'concluido', 'cancelado'],
-      default: 'ativo'
+      enum: ['Ativo', 'Trancado'],
+      default: 'Ativo',
     },
-    nota: {
-      type: Number,
-      min: 0,
-      max: 10
-    }
+    dataMatricula: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );
 
-// Evita matrícula duplicada
-alunoDisciplinaSchema.index(
-  { alunoId: 1, disciplinaId: 1 },
-  { unique: true }
-);
+alunoDisciplinaSchema.index({ alunoId: 1, disciplinaId: 1 }, { unique: true });
 
-module.exports = 
-mongoose.models.AlunoDisciplina ||
-mongoose.model('AlunoDisciplina', alunoDisciplinaSchema);
+module.exports =
+  mongoose.models.AlunoDisciplina ||
+  mongoose.model('AlunoDisciplina', alunoDisciplinaSchema);

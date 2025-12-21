@@ -2,48 +2,36 @@ const mongoose = require('mongoose');
 
 const chamadaSchema = new mongoose.Schema(
   {
+    alunoId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Aluno',
+      required: true,
+    },
     disciplinaId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Disciplina',
-      required: true
+      required: true,
     },
     professorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Professor',
-      required: true
+      required: true,
     },
     data: {
-      type: String,
-      required: true
+      type: Date,
+      required: true,
     },
-    presencas: [
-      {
-        alunoId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Aluno',
-          required: true
-        },
-        status: {
-          type: String,
-          enum: ['Presente', 'Ausente'],
-          default: 'Ausente'
-        }
-      }
-    ],
-    finalizada: {
-      type: Boolean,
-      default: false
-    }
+    status: {
+      type: String,
+      enum: ['Presente', 'Ausente'],
+      default: 'Ausente',
+    },
   },
   { timestamps: true }
 );
 
-// Regra: uma chamada por disciplina e data
-chamadaSchema.index(
-  { disciplinaId: 1, data: 1 },
-  { unique: true }
-);
+// Impede chamada duplicada no mesmo dia
+chamadaSchema.index({ alunoId: 1, disciplinaId: 1, data: 1 }, { unique: true });
 
 module.exports =
-  mongoose.models.Chamada ||
-  mongoose.model('Chamada', chamadaSchema);
+  mongoose.models.Chamada || mongoose.model('Chamada', chamadaSchema);
