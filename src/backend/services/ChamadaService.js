@@ -1,5 +1,6 @@
 const Chamada = require('../models/Chamada');
 const ChamadaRepository = require('../repositories/ChamadaRepository');
+const AlunoDisciplinaRepository = require('../repositories/AlunoDisciplinaRepository');
 
 class ChamadaService {
   /**
