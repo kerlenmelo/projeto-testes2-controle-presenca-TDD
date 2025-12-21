@@ -1,9 +1,20 @@
 class Professor {
   constructor({ nome, cpf, email, telefone, senha }) {
-    if (!nome) throw new Error('Nome é obrigatório');
-    if (!cpf || cpf.length !== 11) throw new Error('CPF inválido');
-    if (!email) throw new Error('Email é obrigatório');
-    if (!senha || senha.length < 6) throw new Error('Senha inválida');
+    if (!nome || nome.trim().length < 3) {
+      throw new Error('Nome do professor inválido');
+    }
+
+    if (!cpf || cpf.length !== 11) {
+      throw new Error('CPF inválido');
+    }
+
+    if (!email || !email.includes('@')) {
+      throw new Error('Email inválido');
+    }
+
+    if (!senha || senha.length < 6) {
+      throw new Error('Senha inválida');
+    }
 
     this.nome = nome;
     this.cpf = cpf;
