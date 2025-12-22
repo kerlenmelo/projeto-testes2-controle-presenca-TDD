@@ -1,0 +1,29 @@
+.salvar-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-salvar {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 32px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-salvar:hover {
+  background-color: #0056b3;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+tr {
+  border-radius: 8px;
+}
