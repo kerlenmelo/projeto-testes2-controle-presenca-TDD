@@ -1,10 +1,10 @@
 const ChamadaService = require('../services/ChamadaService');
 
 class ChamadaController {
-  async registrar(req, res) {
+async registrar(req, res) {
     try {
-      const chamada = await ChamadaService.registrar(req.body);
-      return res.status(201).json(chamada);
+      const resultado = await ChamadaService.registrar(req.body);
+      return res.status(201).json(resultado);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
