@@ -13,13 +13,23 @@ function DisciplinaDetalhe() {
 
       <div className="disciplina-container">
         <div className="disciplina-card">
-          <h2>Disciplina 1</h2>
+          <h2>Disciplina</h2>
 
           <button
             className="btn-chamada"
             onClick={() => navigate(`/disciplinas/${id}/chamada`)}
           >
             Abrir Chamada
+          </button>
+
+          <button
+            className="btn-chamada"
+            style={{ marginTop: 10 }}
+            onClick={() =>
+              navigate(`/disciplinas/${id}/chamada/visualizar`)
+            }
+          >
+            Ver Chamadas Anteriores
           </button>
         </div>
       </div>

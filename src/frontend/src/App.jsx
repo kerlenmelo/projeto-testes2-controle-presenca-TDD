@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import DisciplinaDetalhe from './pages/DisciplinaDetalhe';
 import Chamada from './pages/Chamada';
 import AlunoDetalhe from './pages/AlunoDetalhe';
+import ChamadaVisualizar from './pages/ChamadaVisualizar';
 
 function App() {
   const { professor } = useAuth();
@@ -32,6 +33,11 @@ function App() {
       <Route
         path="/disciplinas/:disciplinaId/chamada"
         element={professor ? <Chamada /> : <Navigate to="/" />}
+      />
+
+      <Route
+        path="/disciplinas/:disciplinaId/chamada/visualizar"
+        element={professor ? <ChamadaVisualizar /> : <Navigate to="/" />}
       />
 
       <Route
