@@ -16,8 +16,8 @@ class Chamada {
     if (isNaN(dataConvertida.getTime())) {
       throw new Error('Data da chamada inválida');
     }
+
     dataConvertida.setHours(0, 0, 0, 0);
-    this.data = dataConvertida;
 
     if (!['Presente', 'Ausente'].includes(status)) {
       throw new Error('Status inválido');
@@ -26,7 +26,7 @@ class Chamada {
     this.alunoId = alunoId;
     this.disciplinaId = disciplinaId;
     this.professorId = professorId;
-    this.data = new Date(data);
+    this.data = dataConvertida;
     this.status = status;
   }
 }

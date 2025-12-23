@@ -30,20 +30,16 @@ const chamadaSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/**
- * Garante que a chamada seja única por DIA,
- * independentemente do horário enviado.
- */
 chamadaSchema.pre('save', function () {
   if (this.data instanceof Date) {
     this.data.setHours(0, 0, 0, 0);
   }
 });
 
-/**
- * Um aluno só pode ter UMA chamada por dia em cada disciplina
- */
-chamadaSchema.index({ alunoId: 1, disciplinaId: 1, data: 1 }, { unique: true });
+chamadaSchema.index(
+  { alunoId: 1, disciplinaId: 1, data: 1 },
+  { unique: true }
+);
 
 module.exports =
   mongoose.models.Chamada || mongoose.model('Chamada', chamadaSchema);

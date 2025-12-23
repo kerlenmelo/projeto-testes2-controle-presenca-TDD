@@ -24,12 +24,27 @@ class ChamadaRepository {
     }).populate('alunoId');
   }
 
-  async findOne(filter) {
-    return ChamadaModel.findOne(filter);
-  }
+  async upsert(alunoId, disciplinaId, data, payload) {
+    const dataNormalizada = new Date(data);
+    dataNormalizada.setHours(0, 0, 0, 0);
 
-  async create(data) {
-    return ChamadaModel.create(data);
+    return ChamadaModel.findOneAndUpdate(
+      {
+        alunoId,
+        disciplinaId,
+        data: dataNormalizada,
+      },
+      {
+        alunoId,
+        disciplinaId,
+        data: dataNormalizada,
+        ...payload,
+      },
+      {
+        upsert: true,
+        new: true,
+      }
+    );
   }
 }
 
