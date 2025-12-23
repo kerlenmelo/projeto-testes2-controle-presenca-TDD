@@ -11,13 +11,11 @@ export async function listarChamadaPorDisciplinaEData(disciplinaId, data) {
   return request(`/chamadas/disciplina/${disciplinaId}?data=${data}`);
 }
 
-export async function listarChamadaCompleta(disciplinaId) {
-  const hoje = new Date().toISOString().slice(0, 10);
+export async function listarChamadaCompleta(disciplinaId, data) {
   return request(
-    `/chamadas/disciplina/${disciplinaId}/completa?data=${hoje}`
+    `/chamadas/disciplina/${disciplinaId}/completa?data=${data}`
   );
 }
-
 
 export async function listarHistoricoAluno(alunoId) {
   return request(`/chamadas/aluno/${alunoId}`);

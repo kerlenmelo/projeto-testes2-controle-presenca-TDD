@@ -12,63 +12,58 @@ function Chamada() {
   const { professor } = useAuth();
   const [alunos, setAlunos] = useState([]);
   const [presencas, setPresencas] = useState({});
+  const [data, setData] = useState(new Date().toISOString().slice(0, 10));
 
-    useEffect(() => {
-    if (!disciplinaId) return;
+  useEffect(() => {
+    if (!disciplinaId || !data) return;
 
-    listarChamadaCompleta(disciplinaId).then((lista) => {
-        const alunosNormalizados = lista.map((item) => {
-        return {
-            _id: item._id || item.aluno?._id,
-            nome: item.nome || item.aluno?.nome,
-            status: item.status || 'Presente'
-        };
-        });
+    listarChamadaCompleta(disciplinaId, data).then((lista) => {
+      const alunosNormalizados = lista.map((item) => ({
+        _id: item._id,
+        nome: item.nome,
+        status: item.status || 'Ausente'
+      }));
 
-        setAlunos(alunosNormalizados);
+      setAlunos(alunosNormalizados);
 
-        const inicial = {};
-        alunosNormalizados.forEach((aluno) => {
-        if (aluno._id) {
-            inicial[aluno._id] = aluno.status;
-        }
-        });
+      const inicial = {};
+      alunosNormalizados.forEach((aluno) => {
+        inicial[aluno._id] = aluno.status;
+      });
 
-        setPresencas(inicial);
+      setPresencas(inicial);
     });
-    }, [disciplinaId]);
+  }, [disciplinaId, data]);
 
   const atualizarStatus = (alunoId, status) => {
     setPresencas({ ...presencas, [alunoId]: status });
   };
 
-    const salvar = async () => {
+  const salvar = async () => {
     if (!professor) return;
 
     const presencasPayload = Object.entries(presencas)
-        .filter(([alunoId]) => alunoId && alunoId !== 'undefined')
-        .map(([alunoId, status]) => ({
+      .filter(([alunoId]) => alunoId && alunoId !== 'undefined')
+      .map(([alunoId, status]) => ({
         alunoId,
         status
-        }));
+      }));
 
     if (presencasPayload.length === 0) {
-        alert('Nenhuma presença válida para salvar');
-        return;
+      alert('Nenhuma presença válida para salvar');
+      return;
     }
 
     const dados = {
-        disciplinaId,
-        professorId: professor._id || professor.id,
-        data: new Date().toISOString().slice(0, 10),
-        presencas: presencasPayload
+      disciplinaId,
+      professorId: professor._id || professor.id,
+      data,
+      presencas: presencasPayload
     };
 
-  await registrarChamada(dados);
-  alert('Chamada registrada');
-};
-
-
+    await registrarChamada(dados);
+    alert('Chamada registrada');
+  };
 
   return (
     <>
@@ -77,29 +72,32 @@ function Chamada() {
       <div style={{ padding: 30 }}>
         <h2>Chamada</h2>
 
+        <div style={{ marginBottom: 20 }}>
+          <input
+            type="date"
+            value={data}
+            onChange={(e) => setData(e.target.value)}
+          />
+        </div>
+
         <table>
           <tbody>
-            {alunos.map((aluno) => {
-            const id = aluno._id || aluno.alunoId?._id || aluno.alunoId;
-
-            return (
-                <AlunoRow
-                key={id}
+            {alunos.map((aluno) => (
+              <AlunoRow
+                key={aluno._id}
                 aluno={aluno}
-                status={presencas[id]}
+                status={presencas[aluno._id]}
                 onChange={atualizarStatus}
-                />
-            );
-            })}
+              />
+            ))}
           </tbody>
         </table>
 
         <div className="salvar-container">
-        <button className="btn-salvar" onClick={salvar}>
+          <button className="btn-salvar" onClick={salvar}>
             Salvar
-        </button>
+          </button>
         </div>
-
       </div>
     </>
   );
