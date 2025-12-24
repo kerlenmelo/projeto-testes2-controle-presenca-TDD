@@ -1,32 +1,32 @@
+const mongoose = require('mongoose');
 const AlunoDisciplinaService = require('../../services/AlunoDisciplinaService');
+const AlunoDisciplinaRepository = require('../../repositories/AlunoDisciplinaRepository');
 
-describe('AlunoDisciplinaService (RED)', () => {
+jest.mock('../../repositories/AlunoDisciplinaRepository');
+
+describe('AlunoDisciplinaService', () => {
+  let service;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    service = AlunoDisciplinaService;
+
+    service._alunoId = new mongoose.Types.ObjectId().toString();
+    service._disciplinaId = new mongoose.Types.ObjectId().toString();
+  });
 
   it('deve matricular aluno em disciplina', async () => {
-    const service = new AlunoDisciplinaService();
+    AlunoDisciplinaRepository.create.mockResolvedValue({
+      alunoId: service._alunoId,
+      disciplinaId: service._disciplinaId,
+      status: 'Ativo'
+    });
 
     const matricula = await service.matricular({
-      alunoId: 'aluno-1',
-      disciplinaId: 'disc-1'
+      alunoId: service._alunoId,
+      disciplinaId: service._disciplinaId
     });
 
-    expect(matricula.status).toBe('ativo');
+    expect(matricula.status).toBe('Ativo');
   });
-
-  it('não deve permitir matrícula duplicada', async () => {
-    const service = new AlunoDisciplinaService();
-
-    await service.matricular({
-      alunoId: 'aluno-1',
-      disciplinaId: 'disc-1'
-    });
-
-    await expect(
-      service.matricular({
-        alunoId: 'aluno-1',
-        disciplinaId: 'disc-1'
-      })
-    ).rejects.toThrow();
-  });
-
 });

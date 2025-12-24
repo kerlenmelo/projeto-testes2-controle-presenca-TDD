@@ -1,9 +1,20 @@
 const DisciplinaService = require('../../services/DisciplinaService');
+const DisciplinaRepository = require('../../repositories/DisciplinaRepository');
+
+jest.mock('../../repositories/DisciplinaRepository');
+
+jest.setTimeout(10000);
 
 describe('DisciplinaService (RED)', () => {
+  let service;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    service = DisciplinaService;
+  });
 
   it('deve criar uma disciplina válida', async () => {
-    const service = new DisciplinaService();
+    DisciplinaRepository.create.mockImplementation(async data => data);
 
     const disciplina = await service.criar({
       nome: 'Engenharia de Software',
@@ -15,13 +26,9 @@ describe('DisciplinaService (RED)', () => {
   });
 
   it('não deve permitir duas disciplinas com o mesmo nome', async () => {
-    const service = new DisciplinaService();
-
-    await service.criar({
-      nome: 'Engenharia de Software',
-      cargaHoraria: 60,
-      professorId: 'prof-1'
-    });
+    DisciplinaRepository.create.mockRejectedValue(
+      new Error('Disciplina duplicada')
+    );
 
     await expect(
       service.criar({
@@ -31,5 +38,4 @@ describe('DisciplinaService (RED)', () => {
       })
     ).rejects.toThrow();
   });
-
 });

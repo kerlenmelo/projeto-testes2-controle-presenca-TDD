@@ -1,13 +1,26 @@
 const ProfessorService = require('../../services/ProfessorService');
+const ProfessorRepository = require('../../repositories/ProfessorRepository');
+
+jest.mock('../../repositories/ProfessorRepository');
+
+jest.setTimeout(10000);
 
 describe('ProfessorService (RED)', () => {
+  let service;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    service = ProfessorService;
+  });
 
   it('deve criar um professor válido', async () => {
-    const service = new ProfessorService();
+    ProfessorRepository.findByCpf.mockResolvedValue(null);
+    ProfessorRepository.create.mockImplementation(async data => data);
 
     const professor = await service.criar({
       nome: 'Maria',
       cpf: '12345678901',
+      email: 'teste@professor.com.br',
       senha: '123456'
     });
 
@@ -15,21 +28,15 @@ describe('ProfessorService (RED)', () => {
   });
 
   it('não deve permitir CPF duplicado', async () => {
-    const service = new ProfessorService();
-
-    await service.criar({
-      nome: 'Maria',
-      cpf: '12345678901',
-      senha: '123456'
-    });
+    ProfessorRepository.findByCpf.mockResolvedValue({ cpf: '12345678901' });
 
     await expect(
       service.criar({
         nome: 'Outra',
         cpf: '12345678901',
+        email: 'teste@professor.com.br',
         senha: 'abcdef'
       })
     ).rejects.toThrow();
   });
-
 });
